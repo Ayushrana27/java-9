@@ -1,0 +1,15 @@
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+@Service
+public class StudentService {
+    @Autowired
+    private SessionFactory sessionFactory;
+
+    @Transactional
+    public void addStudent(Student student) {
+        sessionFactory.getCurrentSession().save(student);
+    }
+}
