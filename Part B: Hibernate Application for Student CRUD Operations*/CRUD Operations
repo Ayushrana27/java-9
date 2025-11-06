@@ -1,0 +1,31 @@
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
+public class StudentCRUD {
+    public static void main(String[] args) {
+        SessionFactory factory = new Configuration().configure().addAnnotatedClass(Student.class).buildSessionFactory();
+        Session session = factory.getCurrentSession();
+
+        try {
+            // Create
+            Student s1 = new Student();
+            s1.setName("Ayush");
+            s1.setAge(21);
+
+            session.beginTransaction();
+            session.save(s1);
+            session.getTransaction().commit();
+
+            // Read
+            session = factory.getCurrentSession();
+            session.beginTransaction();
+            Student readStudent = session.get(Student.class, 1);
+            System.out.println("Read Student: " + readStudent.getName());
+            session.getTransaction().commit();
+
+        } finally {
+            factory.close();
+        }
+    }
+}
